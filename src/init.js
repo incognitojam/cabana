@@ -13,6 +13,7 @@ import {
   persistGithubAuthToken
 } from './api/localstorage';
 import { demoProps } from './demo';
+import { loadRetropilotDrive } from './retropilot';
 
 async function authenticate() {
   if (window.location && window.location.pathname === AuthConfig.AUTH_PATH) {
@@ -116,7 +117,16 @@ export default function init() {
     ReactDOM.render(<CanExplorer {...props} />, document.getElementById('root')); // eslint-disable-line react/jsx-props-no-spreading
   }
 
-  authenticate().then(() => {
+  authenticate().then(async () => {
+    const retropilotHost = getUrlParameter('retropilotHost') || '';
+    const driveIdentifier = getUrlParameter('retropilotIdentifier') || '';
+    const seekTime = getUrlParameter('seekTime') || 0;
+    await loadRetropilotDrive(retropilotHost, driveIdentifier, seekTime);
+
+    if (global.retropilotLoaded) {
+      props = global.retropilotProps;
+    }
+
     renderDom();
   });
 }
