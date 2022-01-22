@@ -39,7 +39,6 @@
     "lint-staged": "^9.4.0",
     "localforage": "^1.7.1",
     "moment": "^2.18.1",
-    "node-sass": "^4.12.0",
     "prettier": "^1.9.2",
     "prop-types": "^15.5.10",
     "query-string": "^5.0.1",
@@ -56,6 +55,7 @@
     "react-vega": "^7.0.0",
     "react-visibility-sensor": "^3.10.1",
     "right-pad": "^1.0.1",
+    "sass": "^1.49.0",
     "simple-statistics": "^4.1.0",
     "socket.io-client": "^2.0.3",
     "stream-selector": "^0.1.1",
@@ -94,7 +94,7 @@
   "scripts": {
     "start": "PORT=3001 env-cmd .env.development craco start",
     "build": "env-cmd .env.production craco build",
-    "netlify-sass": "node-sass src/index.scss > src/index.css",
+    "netlify-sass": "sass src/index.scss src/index.css",
     "netlify-build": "yarn run netlify-sass && yarn run build",
     "build:staging": "env-cmd .env.staging craco build",
     "test": "craco test --env=jsdom",
@@ -103,7 +103,7 @@
     "test-puppeteer": "jest -c ./src/__puppeteer__/jest.config.js",
     "test-all": "yarn run test-ci && yarn run test-puppeteer",
     "test-puppeteer-build": "JEST_PUPPETEER_CONFIG=jest-puppeteer.build.config.js yarn run test-puppeteer",
-    "sass": "node-sass src/index.scss -o src && node-sass -w src/index.scss -o src",
+    "sass": "sass src:src && sass --watch src:src",
     "deploy": "yarn run test-ci && npm run build && yarn run test-puppeteer-build && gh-pages -d build"
   },
   "lint-staged": {
